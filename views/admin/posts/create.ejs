@@ -1,0 +1,30 @@
+<%- include('../admin-partials/head')  %> 
+<div class="dashboard-col-2">
+    <h1>Create Post</h1>
+
+    <form action="/admin/posts/create" method="post">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Enter Title">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Status</label>
+            <select name="status" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option selected>Open this select menu</option>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+                <option value="draft">Draft</option>
+            </select>
+        </div>
+        <div class="mb-3 form-check">
+            <input name="allowComments" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label for="exampleCheck1" class="form-check-label">Allow Comments</label>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Body</label>
+            <textarea name="body" cols="30" rows="10" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Publish</button>
+    </form>
+</div>
+<%- include('../admin-partials/footer')  %> 

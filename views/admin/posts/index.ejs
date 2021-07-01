@@ -1,0 +1,29 @@
+<%- include('../admin-partials/head')  %> 
+<div class="dashboard-col-2">
+    <h1>All Posts</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Allow Comments</th>
+            <th>Edit Post</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% posts.forEach((posts,index) => { %>
+             
+            
+        <tr>
+            <td><%- posts.id %> </td>
+            <td><%- posts.title %> </td>
+            <td><%- posts.status %> </td>
+            <td><%- posts.allowComments %> </td>
+            <td><a href="/admin/posts/edit/<%- posts.id %>" class="btn btn-info">Edit</a></td>
+        </tr>
+        <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include('../admin-partials/footer')  %> 
