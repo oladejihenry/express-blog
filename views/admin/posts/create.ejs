@@ -2,10 +2,14 @@
 <div class="dashboard-col-2">
     <h1>Create Post</h1>
 
-    <form action="/admin/posts/create" method="post">
+    <form action="/admin/posts/create" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Enter Title">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Uploa Images</label>
+            <input type="file" name="file" class="form-control" id="exampleFormControlInput1" placeholder="Enter Title">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Status</label>
