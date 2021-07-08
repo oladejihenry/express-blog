@@ -6,6 +6,7 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
+                <th>Image</th>
                 <th scope="col">Title</th>
                 <th scope="col">Status</th>
                 <th scope="col">Allow Comments</th>
@@ -19,6 +20,7 @@
                 
             <tr>
                 <td><%- posts.id %> </td>
+                <td><img height="50" max-width="100%" src="/uploads/<%-posts.file%>" alt=""></td>
                 <td><%- posts.title %> </td>
                 <td><%- posts.status %> </td>
                 <td><%- posts.allowComments %> </td>

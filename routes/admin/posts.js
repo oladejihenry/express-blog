@@ -2,7 +2,9 @@ const express = require('express');
 const { findById } = require('../../models/Post');
 const router = express.Router();
 const Post = require('../../models/Post')
-const {isEmpty} = require('../../helpers/upload-helper')
+const {isEmpty, uploadDir} = require('../../helpers/upload-helper')
+const fs = require('fs')
+const path = require('path')
 
 //Get all Posts
 router.get('/', async (req, res)=>{
@@ -22,50 +24,70 @@ router.get('/create', (req, res)=>{
 })
 
 //Create Post (Actually Save data into database)
-router.post('/create', async (req, res)=>{
+router.post('/create',  async (req, res)=>{
+    try{
+        const errors =  [];
+
+        if(!req.body.title){
+            errors.push({message: 'Please add a title'});
+        }
+        
+        if(errors.length > 0){
+            res.render('admin/posts/create',{errors: false})
+         }} catch(errors){
+            res.render('admin/posts/create',{errors: false})
+            } 
+           
+        
+    try{
+        
+
+    let filename = 'Nissan.jpeg';
 
     if(!isEmpty(req.files)){
-        // const file = await req.files.file
-        // const filename = await file.name
+        const file =  req.files.file
+         filename =  Date.now() + '-' + file.name
 
-        // file.mv('./public/uploads/' +filename, (err)=>{
-        //     if(err) throw err
-        // })
+        file.mv('./public/uploads/' + filename, (err)=>{
+            if(err) throw err
+        })
 
-        console.log('is not empty')
     }
 
 
-    // let allowComments = true;
+    let allowComments = true;
 
-    // if(req.body.allowComments){
+    if(req.body.allowComments){
 
-    //     allowComments = true;
+        allowComments = true;
 
-    // }  else{
+    }  else{
 
-    //     allowComments = false;
-    // }
-    // try{
-    // const newPost = await new Post({
-    //     title: req.body.title,
-    //     status: req.body.status,
-    //     allowComments: allowComments,
-    //     body: req.body.body
-    // });
+        allowComments = false;
+    }
     
-    // const savedPost = await newPost.save();
+    const newPost = await new Post({
+        title: req.body.title,
+        status: req.body.status,
+        allowComments: allowComments,
+        body: req.body.body,
+        file: filename
+    });
+    
+    const savedPost =  await newPost.save();
     // console.log(savedPost);
-    // res.redirect('/admin/posts');
-    // }catch (error){
-    //     console.log(error);
-    // }
+    res.redirect('/admin/posts');
+    
+    } catch (error){
+        console.log(error);
+    }
     // newPost.save().then(savedPost =>{
     //     console.log(savedPost);
     //     res.redirect('/admin/posts');
     // }).catch(error=> {
-    //     console.log('post cannnot save');
+    //     console.log(error, 'post cannnot save');
     // })
+
 });
 
 //Edit Post
@@ -116,13 +138,21 @@ router.put('/edit/:id', async(req,res)=>{
 })
 
 //Delete Posts
-router.delete('/:id', async(req, res)=>{
-    try {
-        await Post.deleteOne({_id: req.params.id})
-        res.redirect('/admin/posts')
-    } catch (error) {
-        console.log(error)
-    }
+router.delete('/:id', async (req, res)=>{
+   
+       await Post.findOne({_id: req.params.id}).then(post=>{
+           fs.unlink(uploadDir + post.file, (err)=>{
+               post.remove();
+               res.redirect('/admin/posts')
+           })
+       })
+        // fs.unlink(uploadDir + post.file, (err)=>{
+            
+        //     post.remove()
+        //     res.redirect('/admin/posts')
+        // })
+        
+    
 
 })
 

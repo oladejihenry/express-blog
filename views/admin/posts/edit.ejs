@@ -1,5 +1,7 @@
 <%- include('../admin-partials/head')  %> 
 <div class="dashboard-col-2">
+
+    
     <h1>Edit Post</h1>
 
     <form action="/admin/posts/edit/<%-post.id%>?_method=PUT" method="post" enctype="multipart/form-data">
@@ -27,6 +29,7 @@
             <textarea name="body" cols="30" rows="10" class="form-control" id="exampleFormControlTextarea1" rows="3"><%- post.body %></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/admin/posts" class="btn btn-primary">Cancel</a>
     </form>
 </div>
 <%- include('../admin-partials/footer')  %> 
